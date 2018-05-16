@@ -8,7 +8,7 @@ Bring your own device and set up the environment to be able to develop Java Spri
 * [Spring Tool STS](https://spring.io/tools/sts/all) - The IDE that we use (Eclipse based)
 * [JDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) - Install JDK 1.8 or later
 * [Buildship Gradle] - inside STS go to Help Marketplace and install Buildship Gradle
-* [ChatRepository] (https://github.com/nl-muc-spring/ChatRepository) - Clone our git repo from github
+* [ChatRepository](https://github.com/nl-muc-spring/ChatRepository) - Clone our git repo from github
 
 ### Let it run
 
