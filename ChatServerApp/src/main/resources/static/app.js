@@ -1,4 +1,5 @@
 var stompClient = null;
+var username = '';
 
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
@@ -13,6 +14,16 @@ function setConnected(connected) {
 }
 
 function connect() {
+	
+	if ($( "#username" ).val() === "") {
+		$( "#username-error" ).removeClass('hidden');
+		console.log('USERNAME is empty');
+		return;
+	} else {
+		$( "#username-error" ).addClass('hidden');
+	}
+	username = $( "#username" ).val();
+	
     var socket = new SockJS('/gs-guide-websocket');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
