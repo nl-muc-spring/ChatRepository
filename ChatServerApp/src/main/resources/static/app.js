@@ -19,7 +19,7 @@ function connect() {
         setConnected(true);
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/messages', function (response) {
-            showMessage(JSON.parse(response.body).message);
+            showMessage(JSON.parse(response.body));
         });
     });
 }
@@ -33,11 +33,16 @@ function disconnect() {
 }
 
 function sendMessage() {
-    stompClient.send("/app/meassageroom", {}, JSON.stringify({'message': $("#message").val()}));
+	//var username = "mockedUser ;)";
+    stompClient.send("/app/meassageroom", {}, JSON.stringify({'user':{'userName': $("#username").val()}, 'message': $("#message").val()}));
 }
 
 function showMessage(message) {
-    $("#messages").append("<tr><td>" + message + "</td></tr>");
+	var date = new Date(message.date);
+    $("#messages").append(
+    		"<tr><td><b>" + message.user.userName 
+    		+ "</b> <small>" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() 
+    		+ "</small> | " + message.message + "</td></tr>");
 }
 
 $(function () {
