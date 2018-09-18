@@ -1,4 +1,5 @@
 var stompClient = null;
+var username = '';
 
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
@@ -13,13 +14,23 @@ function setConnected(connected) {
 }
 
 function connect() {
+	
+	if ($( "#username" ).val() === "") {
+		$( "#username-error" ).removeClass('hidden');
+		console.log('USERNAME is empty');
+		return;
+	} else {
+		$( "#username-error" ).addClass('hidden');
+	}
+	username = $( "#username" ).val();
+	
     var socket = new SockJS('/gs-guide-websocket');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/messages', function (response) {
-            showMessage(JSON.parse(response.body).message);
+            showMessage(JSON.parse(response.body));
         });
     stompClient.send("/app/connected", {}, JSON.stringify({'userName': 'userName'}));
     });
@@ -35,11 +46,15 @@ function disconnect() {
 }
 
 function sendMessage() {
-    stompClient.send("/app/meassageroom", {}, JSON.stringify({'message': $("#message").val()}));
+    stompClient.send("/app/meassageroom", {}, JSON.stringify({'user':{'userName': $("#username").val()}, 'message': $("#message").val()}));
 }
 
 function showMessage(message) {
-    $("#messages").append("<tr><td>" + message + "</td></tr>");
+	var date = new Date(message.date);
+    $("#messages").append(
+    		"<tr><td><b>" + message.user.userName 
+    		+ "</b> <small>" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() 
+    		+ "</small> | " + message.message + "</td></tr>");
 }
 
 $(function () {
