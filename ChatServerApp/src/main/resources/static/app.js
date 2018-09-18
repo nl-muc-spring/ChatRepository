@@ -33,7 +33,6 @@ function disconnect() {
 }
 
 function sendMessage() {
-	//var username = "mockedUser ;)";
     stompClient.send("/app/meassageroom", {}, JSON.stringify({'user':{'userName': $("#username").val()}, 'message': $("#message").val()}));
 }
 
