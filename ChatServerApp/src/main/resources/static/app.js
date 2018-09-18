@@ -30,7 +30,7 @@ function connect() {
         setConnected(true);
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/messages', function (response) {
-            showMessage(JSON.parse(response.body).message);
+            showMessageForUser(JSON.parse(response.body).message, JSON.parse(response.body).userName);
         });
     });
 }
@@ -47,8 +47,8 @@ function sendMessage() {
     stompClient.send("/app/meassageroom", {}, JSON.stringify({'message': $("#message").val()}));
 }
 
-function showMessage(message) {
-    $("#messages").append("<tr><td>" + message + "</td></tr>");
+function showMessageForUser(message, userName) {
+    $("#messages").append("<tr><td>" + "<b>" + userName + ": </b>" + message + "</td></tr>");
 }
 
 $(function () {
