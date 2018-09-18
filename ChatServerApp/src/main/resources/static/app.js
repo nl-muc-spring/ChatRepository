@@ -21,11 +21,13 @@ function connect() {
         stompClient.subscribe('/topic/messages', function (response) {
             showMessage(JSON.parse(response.body).message);
         });
+    stompClient.send("/app/connected", {}, JSON.stringify({'userName': 'userName'}));
     });
 }
 
 function disconnect() {
     if (stompClient !== null) {
+        stompClient.send("/app/disconnected", {}, JSON.stringify({'userName': 'userName'}));
         stompClient.disconnect();
     }
     setConnected(false);
