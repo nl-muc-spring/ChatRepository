@@ -2,6 +2,7 @@ package com.netlight.munich.spring.server.backend.service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import com.netlight.munich.spring.server.backend.web.dto.CreateUserRequest;
 public class UserServiceImpl implements UserService {
 	
 	private final UserRepository userRepository;
+	private final Logger log = Logger.getLogger(this.getClass().getName());
 
 	public UserServiceImpl(UserRepository userRepository) {
 		this.userRepository = userRepository;
@@ -25,12 +27,14 @@ public class UserServiceImpl implements UserService {
 		User user = new User(request.nickName);
 		user.setCreatedAt(LocalDateTime.now());
 		user.setLastLogin(null);
+		log.info("Saving user to database: " + user.getNickName());
 		userRepository.save(user);
 		return user;
 	}
 
 	@Override
 	public List<User> getAllUsers() {
+		log.info("Retrieving all users from database");
 		List<User> userList = new ArrayList<>();
 		userRepository.findAll().forEach(userList::add);
 		return userList;
@@ -38,6 +42,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User getUserByNickName(String nickName) {
+		log.info("Retrieving user " + nickName);
 		Optional<User> user = userRepository.findByNickName(nickName);
 		if (user.isPresent()) {
 			return user.get();
@@ -49,7 +54,13 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void updateLastLoggedIn(User user) {
+		log.info("Updating last login for user " + user.getNickName());
 		user.setLastLogin(LocalDateTime.now());
+		userRepository.save(user);
+	}
+
+	@Override
+	public void saveUser(User user) {
 		userRepository.save(user);
 	}
 

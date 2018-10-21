@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotNull;
 
-public class CreateUserRequest {
+public class UpdateUserRequest {
 	@NotNull
-	public String nickName;
+	public LocalDateTime lastLogin;
 }
