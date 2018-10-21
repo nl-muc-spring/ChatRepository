@@ -22,7 +22,6 @@ function connect() {
 	} else {
 		$( "#username-error" ).addClass('hidden');
 	}
-	username = $( "#username" ).val();
 	
     var socket = new SockJS('/gs-guide-websocket');
     stompClient = Stomp.over(socket);
@@ -32,7 +31,7 @@ function connect() {
         stompClient.subscribe('/topic/messages', function (response) {
             showMessage(JSON.parse(response.body));
         });
-    stompClient.send("/app/connected", {}, JSON.stringify({'userName': 'userName'}));
+    stompClient.send("/app/connected", {}, JSON.stringify({'userName': $( "#username" ).val()}));
     });
 }
 
