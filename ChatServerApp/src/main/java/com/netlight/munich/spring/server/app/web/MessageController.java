@@ -46,11 +46,13 @@ public class MessageController {
     		List<String> existingUserNames = existingUsers.stream()
     				.map(user -> user.getUserName())
     				.collect(Collectors.toList());
+			User newUser = new User();
+			newUser.setUserName(userDto.getUserName());
     		if (!existingUserNames.contains(userDto.getUserName())) {
-    			User newUser = new User();
-    			newUser.setUserName(userDto.getUserName());
     			storageAdapter.createUser(newUser);
     		}
+    		storageAdapter.setLastLoginDate(newUser);
+    		
         }
         log.info("Current users: " +  String.join(";", userNamesInUse));
     }
