@@ -51,13 +51,16 @@ public class StorageAdapter {
 	
 	public void saveMessage(Message message) {
 		log.info("Saving message " + message.getMessage());
-		StorageDtoCreateMessageRequest createMessageRequest = new StorageDtoCreateMessageRequest();
+		StorageDtoCreateMessageRequest createMessageRequest = 
+				new StorageDtoCreateMessageRequest();
 		createMessageRequest.nickName = message.getUser().getUserName();
 		createMessageRequest.message = message.getMessage();
 		
-		HttpEntity<StorageDtoCreateMessageRequest> payload = new HttpEntity<>(createMessageRequest);
+		HttpEntity<StorageDtoCreateMessageRequest> payload = 
+				new HttpEntity<>(createMessageRequest);
 		String resourceUrl = storageUrl + "/messages";
-		ResponseEntity<StorageDtoMessage> response = restTemplate.exchange(resourceUrl, HttpMethod.POST, payload, StorageDtoMessage.class);
+		ResponseEntity<StorageDtoMessage> response = restTemplate.exchange(
+				resourceUrl, HttpMethod.POST, payload, StorageDtoMessage.class);
 		log.info("Done saving message " + message.getMessage());
 	}
 	
@@ -65,7 +68,8 @@ public class StorageAdapter {
 		log.info("Requesting all users");
 		
 		String resourceUrl = storageUrl + "/users";
-		ResponseEntity<List<StorageDtoUser>> response = restTemplate.exchange(resourceUrl, HttpMethod.GET, null, new ParameterizedTypeReference<List<StorageDtoUser>>() {
+		ResponseEntity<List<StorageDtoUser>> response = restTemplate.exchange(
+				resourceUrl, HttpMethod.GET, null, new ParameterizedTypeReference<List<StorageDtoUser>>() {
 		});
 		log.info("Done requesting all users");
 		
@@ -83,13 +87,16 @@ public class StorageAdapter {
 	public void createUser(User user){
 		log.info("Creating new user " + user.getUserName());
 		
-		StorageDtoCreateUserRequest storageDtoCreateUserRequest = new StorageDtoCreateUserRequest();
+		StorageDtoCreateUserRequest storageDtoCreateUserRequest = 
+				new StorageDtoCreateUserRequest();
 		storageDtoCreateUserRequest.nickName = user.getUserName();
 		
-		HttpEntity<StorageDtoCreateUserRequest> payload = new HttpEntity<>(storageDtoCreateUserRequest);
+		HttpEntity<StorageDtoCreateUserRequest> payload = new HttpEntity<>(
+				storageDtoCreateUserRequest);
 		
 		String resourceUrl = storageUrl + "/users";
-		ResponseEntity<StorageDtoUser> response = restTemplate.exchange(resourceUrl, HttpMethod.POST, payload, StorageDtoUser.class);
+		ResponseEntity<StorageDtoUser> response = restTemplate.exchange(
+				resourceUrl, HttpMethod.POST, payload, StorageDtoUser.class);
 		
 		log.info("Done creating new user " + user.getUserName());
 	}
