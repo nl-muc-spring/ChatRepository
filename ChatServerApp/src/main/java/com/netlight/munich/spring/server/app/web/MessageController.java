@@ -38,20 +38,20 @@ public class MessageController {
 
     @MessageMapping("/connected")
     public void connect(UserDto userDto) {
+		User connectingUser = new User();
+		connectingUser.setUserName(userDto.getUserName());
+		
+		List<User> existingUsers = storageAdapter.getUsers();
+		List<String> existingUserNames = existingUsers.stream()
+				.map(user -> user.getUserName())
+				.collect(Collectors.toList());
+		if (!existingUserNames.contains(userDto.getUserName())) {
+			storageAdapter.createUser(connectingUser);
+		}
+		storageAdapter.setLastLoginDate(connectingUser);
+		
     	if (!userNamesInUse.contains(userDto.getUserName())) {
             userNamesInUse.add(userDto.getUserName());
-
-    		List<User> existingUsers = storageAdapter.getUsers();
-    		List<String> existingUserNames = existingUsers.stream()
-    				.map(user -> user.getUserName())
-    				.collect(Collectors.toList());
-			User newUser = new User();
-			newUser.setUserName(userDto.getUserName());
-    		if (!existingUserNames.contains(userDto.getUserName())) {
-    			storageAdapter.createUser(newUser);
-    		}
-    		storageAdapter.setLastLoginDate(newUser);
-    		
         }
         log.info("Current users: " +  String.join(";", userNamesInUse));
     }
