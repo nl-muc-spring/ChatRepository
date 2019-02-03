@@ -23,7 +23,7 @@ import com.netlight.munich.spring.server.app.storage.dto.StorageDtoUser;
 @Component
 public class StorageAdapter {
 
-	private final String storageHostname = "localhost";
+	private final String storageHostname = "chat-server-backend";
 	private final int storagePort = 8001;
 	private final String storageUrl = String.format("http://%s:%d", storageHostname, storagePort);
 	

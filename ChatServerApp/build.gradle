@@ -15,7 +15,7 @@ apply plugin: 'io.spring.dependency-management'
 
 
 bootJar {
-    baseName = 'gs-messaging-stomp-websocket'
+    baseName = 'chat-server-app'
     version =  '0.1.0'
 }
 
