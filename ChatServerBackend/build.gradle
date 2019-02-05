@@ -31,10 +31,7 @@ dependencies {
 	compileOnly('org.projectlombok:lombok')
     compile("io.springfox:springfox-swagger2:2.0.2")
     compile("io.springfox:springfox-swagger-ui:2.0.2")
-<<<<<<< HEAD
 	compile("org.springframework.cloud:spring-cloud-starter-sleuth:2.0.1.RELEASE")
-=======
->>>>>>> origin/master
 
     // JPA Data (We are going to use Repositories, Entities, Hibernate, etc...)
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'

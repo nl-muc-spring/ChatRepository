@@ -29,10 +29,7 @@ targetCompatibility = 1.8
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-websocket")
-<<<<<<< HEAD
 	compile("org.springframework.cloud:spring-cloud-starter-sleuth:2.0.1.RELEASE")
-=======
->>>>>>> origin/master
     compile("io.springfox:springfox-swagger2:2.0.2")
     compile("io.springfox:springfox-swagger-ui:2.0.2")
     compile("org.webjars:webjars-locator-core")
