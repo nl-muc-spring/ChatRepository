@@ -38,15 +38,6 @@ public class UserController {
 		return user;
 	}
 
-	@PutMapping("/users/{nickName}")
-	public User updateUser(@PathVariable String nickName,
-			@RequestBody @Validated UpdateUserRequest request) {
-		User user = userService.getUserByNickName(nickName);
-		user.setLastLogin(request.lastLogin);
-		userService.saveUser(user);
-		return user;
-	}
-
 	@GetMapping("/users")
 	public List<User> getUsers() {
 		return userService.getAllUsers();
