@@ -28,6 +28,15 @@ public class UserController {
 	public User createUser(@RequestBody @Validated CreateUserRequest request) {
 		return userService.addUser(request);
 	}
+	
+	@PutMapping("/users/{nickName}")
+	public User updateUser(@PathVariable String nickName,
+			@RequestBody @Validated UpdateUserRequest request) {
+		User user = userService.getUserByNickName(nickName);
+		user.setLastLogin(request.lastLogin);
+		userService.saveUser(user);
+		return user;
+	}
 
 	@PutMapping("/users/{nickName}")
 	public User updateUser(@PathVariable String nickName,
