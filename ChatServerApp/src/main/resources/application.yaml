@@ -5,3 +5,7 @@ server:
 spring:
   application:
     name: ChatApp
+    
+storage-backend:
+  hostName: ${STORAGE_HOSTNAME:http://chat-server-backend}
+  port: ${STORAGE_PORT:8001}

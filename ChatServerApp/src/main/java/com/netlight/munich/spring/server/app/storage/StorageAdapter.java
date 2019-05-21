@@ -23,16 +23,15 @@ import com.netlight.munich.spring.server.app.storage.dto.StorageDtoUser;
 @Component
 public class StorageAdapter {
 
-	private final String storageHostname = "chat-server-backend";
-	private final int storagePort = 8001;
-	private final String storageUrl = String.format("http://%s:%d", storageHostname, storagePort);
+	private final StorageConfig storageConfig;
 	
 	private final Logger log = Logger.getLogger(this.getClass().getName());
 	
 	private final RestTemplate restTemplate;
 	
-	public StorageAdapter(RestTemplate restTemplate) {
+	public StorageAdapter(RestTemplate restTemplate, StorageConfig storageConfig) {
 		this.restTemplate = restTemplate;
+		this.storageConfig = storageConfig;
 	}
 
 	public void setLastLoginDate(User user) {
@@ -43,7 +42,7 @@ public class StorageAdapter {
 		userUpdateRequest.lastLogin = LocalDateTime.now();
 		
 		HttpEntity<StorageDtoUpdateUserRequest> payload = new HttpEntity<>(userUpdateRequest);
-		String resourceUrl = storageUrl + "/users/" + user.getUserName();
+		String resourceUrl = this.storageConfig.getFullUrl() + "/users/" + user.getUserName();
 		ResponseEntity<StorageDtoUser> response = restTemplate.exchange(resourceUrl, HttpMethod.PUT, payload, StorageDtoUser.class);
 		
 		log.info("Done setting last login date for user " + user.getUserName());
@@ -58,7 +57,7 @@ public class StorageAdapter {
 		
 		HttpEntity<StorageDtoCreateMessageRequest> payload = 
 				new HttpEntity<>(createMessageRequest);
-		String resourceUrl = storageUrl + "/messages";
+		String resourceUrl = this.storageConfig.getFullUrl() + "/messages";
 		ResponseEntity<StorageDtoMessage> response = restTemplate.exchange(
 				resourceUrl, HttpMethod.POST, payload, StorageDtoMessage.class);
 		log.info("Done saving message " + message.getMessage());
@@ -67,7 +66,7 @@ public class StorageAdapter {
 	public List<User> getUsers(){
 		log.info("Requesting all users");
 		
-		String resourceUrl = storageUrl + "/users";
+		String resourceUrl = this.storageConfig.getFullUrl() + "/users";
 		ResponseEntity<List<StorageDtoUser>> response = restTemplate.exchange(
 				resourceUrl, HttpMethod.GET, null, new ParameterizedTypeReference<List<StorageDtoUser>>() {
 		});
@@ -94,7 +93,7 @@ public class StorageAdapter {
 		HttpEntity<StorageDtoCreateUserRequest> payload = new HttpEntity<>(
 				storageDtoCreateUserRequest);
 		
-		String resourceUrl = storageUrl + "/users";
+		String resourceUrl = this.storageConfig.getFullUrl() + "/users";
 		ResponseEntity<StorageDtoUser> response = restTemplate.exchange(
 				resourceUrl, HttpMethod.POST, payload, StorageDtoUser.class);
 		
